@@ -13,7 +13,7 @@
 var k = require('k')(window);
 
 k('shift + enter, ctrl + a', function(e){
-  // do stuff fancy stuff
+  // fancy stuff over here.
 });
 ```
 
