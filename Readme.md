@@ -1,4 +1,3 @@
-
 # k
 
   keyboard event dispatcher.
@@ -52,19 +51,19 @@ k('shift + enter, ctrl + a', function(e){
 
 ### k.shift
 
-  Wether or not `shift` key is currently down.
+  Whether or not `shift` key is currently down.
 
 ### k.ctrl
 
-  Wether or not `ctrl` key is currently down.
+  Whether or not `ctrl` key is currently down.
 
 ### k.alt
 
-  Wether or not `alt` key is currently down.
+  Whether or not `alt` key is currently down.
 
 ### k.command
 
-  Wether or not `command` key is currently down.
+  Whether or not `command` key is currently down.
 
 ## dependencies
 
