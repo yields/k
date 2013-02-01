@@ -67,9 +67,9 @@ k('shift + enter, ctrl + a', function(e){
 
 ## dependencies
 
-  * [yields/keycode](/yields/keycode)
-  * [component/event](/component/event)
-  * [yields/merge](/yields/merge)
+  * [yields/keycode](https://github.com/yields/keycode)
+  * [component/event](https://github.com/component/event)
+  * [yields/merge](https://github.com/yields/merge)
 
 ## Tests
 
