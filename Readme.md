@@ -45,6 +45,13 @@ k('shift + enter, ctrl + a', function(e){
   Removes all listeners on `k.el`.
   Removes all `k.listeners`.
 
+### k.ignore(e)
+
+  this function is called just before any handlers are called,
+  if it returns `true` no handlers will be called for this event.
+
+  by default it returns `true` for `input`, `textarea` or `select`.
+
 ### k.listeners
 
   internal listeners.
