@@ -139,3 +139,18 @@ exports.clear = function(){
     this[modifiers[k]] = null;
   }
 };
+
+/**
+ * Ignore all input elements by default.
+ * 
+ * @param {Event} e
+ * @return {Boolean}
+ */
+
+exports.ignore = function(e){
+  var el = e.target || e.srcElement;
+  var name = el.tagName.toLowerCase();
+  return 'textarea' == name
+    || 'select' == name
+    || 'input' == name;
+};

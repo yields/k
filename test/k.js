@@ -132,6 +132,17 @@ describe('k', function(){
         unpress();
       }
     })
+
+    it('should ignore input, select and textarea elements by default', function(){
+      var el = elem('input');
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('enter', function(){ ++invoked; });
+      k('a', function(){ ++invoked; });
+      press(el, 'enter')();
+      press(el, 'a')();
+      assert(0 == invoked);
+    })
   })
 
   describe('k.unbind([keys, [fn]])', function(){
