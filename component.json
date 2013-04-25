@@ -6,7 +6,7 @@
   "keywords": ["keyboard"],
   "development": {},
   "license": "MIT",
-  "scripts": ["index.js"],
+  "scripts": ["index.js", "proto.js"],
   "twitter": "@_yields",
   "dependencies": {
     "yields/keycode": "*",
