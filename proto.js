@@ -1,9 +1,13 @@
 
 /**
- * modifiers.
+ * dependencies
  */
 
 var keycode = require('keycode');
+
+/**
+ * modifiers.
+ */
 
 var modifiers = {
   91: 'command',

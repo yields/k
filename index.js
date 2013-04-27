@@ -3,8 +3,7 @@
  * dependencies.
  */
 
-var keycode = require('keycode')
-  , event = require('event')
+var event = require('event')
   , merge = require('merge')
   , proto = require('./proto');
 
