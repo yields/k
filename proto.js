@@ -3,6 +3,8 @@
  * modifiers.
  */
 
+var keycode = require('keycode');
+
 var modifiers = {
   91: 'command',
   16: 'shift',
