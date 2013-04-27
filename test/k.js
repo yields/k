@@ -1,83 +1,57 @@
 
 var dispatcher = require('k');
 
-/**
- * keycode
- *
- * @param {String} name
- * @return {Number}
- */
-
-function keycode(name){
-  switch (name) {
-    case 'command': return 91;
-    case 'shift': return 16;
-    case 'ctrl': return 17;
-    case 'alt': return 18;
-    case 'enter': return 13;
-    default: return name[0].toUpperCase().charCodeAt(0);
-  }
-}
-
-/**
- * keyname.
- *
- * @param {Number} code
- * @return {String}
- */
-
-function keyname(code){
-  return String.fromCharCode(code).toLowerCase();
-}
-
-/**
- * press the given `key` on `el`
- *
- * @param {Element} el
- * @param {Number|String} code
- * @return {Function}
- */
-
-function press(el, code){
-  if (!el || !code) throw new Error('(el, code) must be given to press()');
-  code = keycode(code);
-  var e = document.createEvent('Event');
-  e.initEvent('keydown', true, true);
-  e.keyCode = e.which = code;
-  el.dispatchEvent(e);
-  return function(){
-    var e = document.createEvent('Event');
-    e.initEvent('keyup', true, true);
-    e.keyCode = code;
-    el.dispatchEvent(e);
-  };
-}
-
-/**
- * create an element.
- *
- * @param {String} type
- * @return {Element}
- */
-
-function elem(type){
-  return document.createElement(type || 'div');
-}
-
-/**
- * assert the given `expr`
- *
- * @param {Mixed} expr
- * @param {String} ms
- * @throws {Error}
- */
-
-function assert(expr, ms){
-  if (expr) return;
-  throw new Error(ms || 'oh noes!');
-}
-
 describe('k', function(){
+
+  // keycode
+
+  function keycode(name){
+    switch (name) {
+      case 'command': return 91;
+      case 'shift': return 16;
+      case 'ctrl': return 17;
+      case 'alt': return 18;
+      case 'enter': return 13;
+      default: return name[0].toUpperCase().charCodeAt(0);
+    }
+  }
+
+  // keyname
+
+  function keyname(code){
+    return String.fromCharCode(code).toLowerCase();
+  }
+
+  // press `el` with `code`
+
+  function press(el, code){
+    if (!el || !code) throw new Error('(el, code) must be given to press()');
+    code = keycode(code);
+    var e = document.createEvent('Event');
+    e.initEvent('keydown', true, true);
+    e.keyCode = e.which = code;
+    el.dispatchEvent(e);
+    return function(){
+      var e = document.createEvent('Event');
+      e.initEvent('keyup', true, true);
+      e.keyCode = code;
+      el.dispatchEvent(e);
+    };
+  }
+
+  // create element with `type`
+
+  function elem(type){
+    return document.createElement(type || 'div');
+  }
+
+  // assert `expr` or throw `ms`
+
+  function assert(expr, ms){
+    if (expr) return;
+    throw new Error(ms || 'oh noes!');
+  }
+  
 
   describe('k = k(el)', function(){
     it('should create a new dispatcher with `el`', function(){
