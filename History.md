@@ -1,23 +1,14 @@
 
-n.n.n / 2013-04-28 
+0.2.0 / 2013-04-28 
+==================
+
+  * add comma support
+  * add .modifiers, closes #3
+
+0.1.3 / 2013-04-28
 ==================
 
   * fix modifier clearing, closes #4
-  * Release 0.1.2
-  * remove global keycode() from tests
-  * Release 0.1.1
-  * keycode dep
-  * Merge pull request #2 from lepture/fix-keycode
-  * fix missing require keycode
-  * Release 0.1.0
-  * ignore keypress on input, select and textarea
-  * move proto to ./proto.js
-  * fix readme
-  * Merge pull request #1 from jonathanong/patch-2
-  * Whether, not Wether
-  * add .twitter
-  * Release 0.0.1
-  * readme typo
 
 0.1.2 / 2013-04-27 
 ==================
