@@ -153,8 +153,8 @@ exports.bind = function(keys, fn){
  */
 
 exports.clear = function(){
-  for (var k in modifiers) {
-    this[modifiers[k]] = null;
+  for (var k in modifierCodes) {
+    this[modifierCodes[k]] = null;
   }
 };
 
