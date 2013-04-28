@@ -140,10 +140,10 @@ exports.bind = function(keys, fn){
  * clear all modifiers on `keyup`.
  */
 
-exports.clear = function(){
-  for (var k in modifiers) {
-    this[modifiers[k]] = null;
-  }
+exports.clear = function(e){
+  var code = e.keyCode;
+  if (!(code in modifiers)) return;
+  this[modifiers[code]] = null;
 };
 
 /**

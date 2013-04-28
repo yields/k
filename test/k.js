@@ -107,6 +107,33 @@ describe('k', function(){
       }
     })
 
+    it('should set `.MODIFIER` to `true` when its down', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var mods = ['ctrl', 'shift', 'command', 'alt'];
+      var unpress;
+      for (var i = 0; i < mods.length; ++i) {
+        unpress = press(el, mods[i]);
+        assert(true == k[mods[i]]);
+        unpress();
+        assert(null == k[mods[i]])
+      }
+    })
+
+    it('should not clear all modifiers onkeyup unless they are not down', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var mods = ['ctrl', 'shift', 'command', 'alt'];
+      var unpress;
+      for (var i = 0; i < mods.length; ++i) {
+        unpress = press(el, mods[i]);
+        press(el, 'enter')();
+        assert(true == k[mods[i]]);
+        unpress();
+        assert(null == k[mods[i]]);
+      }
+    })
+
     it('should ignore input, select and textarea elements by default', function(){
       var el = elem('input');
       var k = dispatcher(el);
