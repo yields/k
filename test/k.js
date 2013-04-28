@@ -146,6 +146,34 @@ describe('k', function(){
     })
   })
 
+  describe('k.modifiers', function(){
+    it('should be `true` if a modifier(s) is down', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var mods = ['ctrl', 'shift', 'command', 'alt'];
+      var unpress;
+      for (var i = 0; i < mods.length; ++i) {
+        unpress = press(el, mods[i]);
+        assert(true == k.modifiers);
+        unpress();
+        assert(null == k.modifiers);
+      }
+    })
+
+    it('should be `falsey` if no modifiers are down', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      assert(null == k.modifiers);
+      var shift = press(el, 'shift');
+      var ctrl = press(el, 'ctrl');
+      assert(true == k.modifiers);
+      shift();
+      assert(true == k.modifiers);
+      ctrl();
+      assert(null == k.modifiers);
+    })
+  })
+
   describe('k.unbind([keys, [fn]])', function(){
     it('should unbind the given `fn` from `keys`', function(){
       var k = dispatcher(elem());

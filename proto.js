@@ -39,6 +39,7 @@ exports.handle = function(e, fn){
   // modifiers
   if (modifiers[e.which]) {
     this[modifiers[e.which]] = true;
+    this.modifiers = true;
     return;
   }
 
@@ -144,6 +145,10 @@ exports.clear = function(e){
   var code = e.keyCode;
   if (!(code in modifiers)) return;
   this[modifiers[code]] = null;
+  this.modifiers = this.command
+    || this.shift
+    || this.ctrl
+    || this.alt;
 };
 
 /**
