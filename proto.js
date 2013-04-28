@@ -9,11 +9,18 @@ var keycode = require('keycode');
  * modifiers.
  */
 
-var modifiers = {
+var modifierCodes = {
   91: 'command',
   16: 'shift',
   17: 'ctrl',
   18: 'alt'
+};
+
+var modifierKeys = {
+  metaKey: 'command',
+  shiftKey: 'shift',
+  ctrlKey: 'ctrl',
+  altKey: 'alt'
 };
 
 /**
@@ -37,13 +44,18 @@ exports.handle = function(e, fn){
   if (fn) return this.bind(e, fn);
 
   // modifiers
-  if (modifiers[e.which]) {
-    this[modifiers[e.which]] = true;
+  if (modifierCodes[e.which]) {
+    this[modifierCodes[e.which]] = true;
     return;
   }
 
   // ignore
   if (ignore && ignore(e)) return;
+
+  // detect system modifier
+  for (var key in modifierKeys) {
+    this[modifierKeys[key]] = e[key]
+  }
 
   // match
   for (var i = 0; i < len; ++i) {
