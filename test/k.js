@@ -7,6 +7,7 @@ describe('k', function(){
 
   function keycode(name){
     switch (name) {
+      case ',': return 188;
       case 'command': return 91;
       case 'shift': return 16;
       case 'ctrl': return 17;
@@ -72,6 +73,20 @@ describe('k', function(){
       assert(k.listeners[keycode('b')]);
       assert(k.listeners[keycode('c')]);
     })
+
+    it('should support bind `,` key currectly', function(){
+      var k = dispatcher(elem());
+      k(',', function(){});
+      assert(k.listeners[keycode(',')]);
+    })
+
+    it('should support keys like `command + ,, ctrl + ,`', function(){
+      var k = dispatcher(elem());
+      k('ctrl + ,, command + ,', function(){});
+      assert(2 == k.listeners[keycode(',')].length)
+      assert('ctrl' == k.listeners[keycode(',')][0].mods[0]);
+      assert('command' == k.listeners[keycode(',')][1].mods[0]);
+    })
   })
 
   describe('k(e)', function(){
@@ -88,6 +103,25 @@ describe('k', function(){
       press(el, 'b')();
       press(el, 'c')();
       assert(4 == invoked);
+    })
+
+    it('should invoke keys like `ctrl + ,, command + ,` and `,`', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      function incr(){ ++invoked; }
+      k(',', incr);
+      k('ctrl + ,, command + ,', incr);
+      press(el, ',')();
+      assert(1 == invoked);
+      var unpress = press(el, 'ctrl');
+      press(el, ',')();
+      unpress();
+      assert(3 == invoked);
+      unpress = press(el, 'command');
+      press(el, ',')();
+      unpress();
+      assert(5 == invoked);
     })
 
     it('should work with modifiers like `shift + enter, ctrl + enter`', function(){

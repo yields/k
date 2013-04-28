@@ -121,15 +121,19 @@ exports.unbind = function(keys, fn){
  */
 
 exports.bind = function(keys, fn){
-  var all = keys.split(/ *, */)
-    , fns = this.listeners
-    , len = all.length
+  var fns = this.listeners
     , mods = []
     , key;
 
-  for (var i = 0; i < len; ++i) {
+  // support `,`
+  var all = ',' != keys
+    ? keys.split(/ *, */)
+    : [','];
+
+  for (var i = 0, len = all.length; i < len; ++i) {
+    if ('' == all[i]) continue;
     mods = all[i].split(/ *\+ */);
-    key = keycode(mods.pop());
+    key = keycode(mods.pop() || ',');
     if (!fns[key]) fns[key] = [];
     fns[key].push({ mods: mods, fn: fn });
   }
