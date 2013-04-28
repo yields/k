@@ -58,19 +58,23 @@ k('shift + enter, ctrl + a', function(e){
 
 ### k.shift
 
-  Whether or not `shift` key is currently down.
+  `true` if `shiftKey` is down.
 
 ### k.ctrl
 
-  Whether or not `ctrl` key is currently down.
+  `true` if `ctrlKey` is down.
 
 ### k.alt
 
-  Whether or not `alt` key is currently down.
+  `true` if `alt` is down.
 
 ### k.command
 
-  Whether or not `command` key is currently down.
+  `true` if `command` is down.
+
+### k.modifiers
+
+  `null` if no modifiers are down, otherwise it's `true`.
 
 ## dependencies
 
