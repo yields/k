@@ -11,6 +11,7 @@ var keycode = require('keycode');
 
 var modifiers = {
   91: 'command',
+  93: 'command',
   16: 'shift',
   17: 'ctrl',
   18: 'alt'
