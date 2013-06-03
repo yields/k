@@ -4,6 +4,7 @@
  */
 
 var keycode = require('keycode');
+var event = require('event');
 
 /**
  * modifiers.
