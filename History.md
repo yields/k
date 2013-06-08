@@ -1,5 +1,11 @@
 
-0.2.0 / 2013-04-28 
+0.2.1 / 2013-06-08
+==================
+
+ * add ie7-9 support
+ * left command keycode is 93 [lepture]
+
+0.2.0 / 2013-04-28
 ==================
 
   * add comma support
@@ -10,18 +16,18 @@
 
   * fix modifier clearing, closes #4
 
-0.1.2 / 2013-04-27 
+0.1.2 / 2013-04-27
 ==================
 
   * remove global keycode() from tests
 
-0.1.1 / 2013-04-27 
+0.1.1 / 2013-04-27
 ==================
 
   * keycode dep
   * keycode dep fix [lepture]
 
-0.1.0 / 2013-04-25 
+0.1.0 / 2013-04-25
 ==================
 
   * ignore keypress on input, select and textarea

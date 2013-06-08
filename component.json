@@ -2,7 +2,7 @@
   "name": "k",
   "repo": "yields/k",
   "description": "keyboard event dispatcher.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": ["keyboard"],
   "license": "MIT",
   "scripts": ["index.js", "proto.js"],
