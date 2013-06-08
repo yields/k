@@ -4,13 +4,13 @@
   "description": "keyboard event dispatcher.",
   "version": "0.2.0",
   "keywords": ["keyboard"],
-  "development": {},
   "license": "MIT",
   "scripts": ["index.js", "proto.js"],
   "twitter": "@_yields",
   "dependencies": {
     "yields/keycode": "*",
     "component/event": "*",
+    "component/bind": "*",
     "yields/merge": "*"
   }
 }

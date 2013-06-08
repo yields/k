@@ -5,7 +5,8 @@
 
 var event = require('event')
   , merge = require('merge')
-  , proto = require('./proto');
+  , proto = require('./proto')
+  , bind = require('bind');
 
 /**
  * create a new dispatcher with `el`.
@@ -21,8 +22,8 @@ var event = require('event')
 
 module.exports = function(el){
   function k(e, fn){ k.handle(e, fn) };
-  k._handle = proto.handle.bind(k);
-  k._clear = proto.clear.bind(k);
+  k._handle = bind(k, proto.handle);
+  k._clear = bind(k, proto.clear);
   event.bind(el, 'keydown', k._handle, false);
   event.bind(el, 'keyup', k._clear, false);
   event.bind(el, 'focus', k._clear, false);
