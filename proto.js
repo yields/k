@@ -3,8 +3,8 @@
  * dependencies
  */
 
-var keycode = require('keycode');
-var event = require('event');
+var keycode = require('keycode')
+  , event = require('event');
 
 /**
  * modifiers.
@@ -92,21 +92,27 @@ exports.destroy = function(){
  */
 
 exports.unbind = function(keys, fn){
-  if (keys) {
-    var index, key;
-    keys = keys.split(/ *, */);
-    for (var i = 0, len = keys.length; i < len; ++i) {
-      key = keycode(keys[i]);
-      if (fn) {
-        index = this.listeners[key].indexOf(fn);
-        this.listeners[key].splice(i, 1);
-      } else {
-        this.listeners[key] = [];
-      }
-    }
-  } else {
+  var listeners = this.listeners
+    , index
+    , key
+    , len;
+
+  if (!keys) {
     this.listeners = {};
+    return this;
   }
+
+  keys = keys.split(/ *, */);
+  for (var i = 0, len = keys.length; i < len; ++i) {
+    key = keycode(keys[i]);
+    if (null == fn) {
+      listeners[key] = [];
+    } else {
+      index = listeners[key].indexOf(fn);
+      listeners[key].splice(i, 1);
+    }
+  }
+
   return this;
 };
 
