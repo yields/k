@@ -58,7 +58,7 @@ exports.handle = function(e, fn){
     for (var j = 0; j < mlen; ++j) {
       if (!this[mods[j]]) {
         invoke = null;
-        continue;
+        break;
       }
     }
 
@@ -159,7 +159,7 @@ exports.clear = function(e){
 
 /**
  * Ignore all input elements by default.
- * 
+ *
  * @param {Event} e
  * @return {Boolean}
  */

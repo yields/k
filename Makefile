@@ -11,4 +11,4 @@ clean:
 test:
 	@open test/index.html
 
-.PHONY: clean
+.PHONY: clean test
