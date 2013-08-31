@@ -11,7 +11,7 @@
 ```js
 var k = require('k')(window);
 
-k('shift + enter, ctrl + a', function(e){
+k('command + shift + enter, ctrl + a', function(e){
   // fancy stuff over here.
 });
 ```
