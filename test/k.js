@@ -52,7 +52,7 @@ describe('k', function(){
     if (expr) return;
     throw new Error(ms || 'oh noes!');
   }
-  
+
 
   describe('k = k(el)', function(){
     it('should create a new dispatcher with `el`', function(){
@@ -86,6 +86,12 @@ describe('k', function(){
       assert(2 == k.listeners[keycode(',')].length)
       assert('ctrl' == k.listeners[keycode(',')][0].mods[0]);
       assert('command' == k.listeners[keycode(',')][1].mods[0]);
+    })
+
+    it('should support multiple modifers `command + shift + ,`', function(){
+      var k = dispatcher(elem());
+      k('command + shift + ,', function(){});
+      assert(2 == k.listeners[keycode(',')][0].mods.length);
     })
   })
 
@@ -122,6 +128,20 @@ describe('k', function(){
       press(el, ',')();
       unpress();
       assert(5 == invoked);
+    })
+
+    it('should work with multiple modifers `command + shift + ,`', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      function incr(){ ++invoked; }
+      k('command + shift + ,', incr);
+      press(el, 'command');
+      assert(0 == invoked);
+      press(el, 'shift');
+      assert(0 == invoked);
+      press(el, ',');
+      assert(1 == invoked);
     })
 
     it('should work with modifiers like `shift + enter, ctrl + enter`', function(){
