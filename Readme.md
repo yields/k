@@ -14,6 +14,10 @@ var k = require('k')(window);
 k('command + shift + enter, ctrl + a', function(e){
   // fancy stuff over here.
 });
+
+k('super + ,', function(){
+  // => "super" is "command" on mac and "ctrl" on everything else.
+})
 ```
 
 ## API
