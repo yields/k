@@ -1,4 +1,12 @@
 
+0.4.0 / 2013-09-16
+==================
+
+ * add package.json
+ * remove "merge" dep
+ * add "super" support, closes #6
+ * add multiple modifiers support
+
 0.3.0 / 2013-08-16
 ==================
 
