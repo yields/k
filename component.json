@@ -11,6 +11,7 @@
     "yields/keycode": "*",
     "component/event": "*",
     "component/bind": "*",
+    "component/os": "*",
     "yields/merge": "*"
   }
 }

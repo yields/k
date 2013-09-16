@@ -4,7 +4,8 @@
  */
 
 var keycode = require('keycode')
-  , event = require('event');
+  , event = require('event')
+  , os = require('os');
 
 /**
  * modifiers.
@@ -17,6 +18,14 @@ var modifiers = {
   17: 'ctrl',
   18: 'alt'
 };
+
+/**
+ * Super key.
+ */
+
+exports.super = 'mac' == os
+  ? 'command'
+  : 'ctrl';
 
 /**
  * handle the given `KeyboardEvent` or bind
@@ -40,6 +49,7 @@ exports.handle = function(e, fn){
 
   // modifiers
   if (modifiers[e.which]) {
+    this.super = exports.super == modifiers[e.which];
     this[modifiers[e.which]] = true;
     this.modifiers = true;
     return;
@@ -133,11 +143,15 @@ exports.bind = function(keys, fn){
     , mods = []
     , key;
 
+  // superkey
+  keys = keys.replace('super', exports.super);
+
   // support `,`
   var all = ',' != keys
     ? keys.split(/ *, */)
     : [','];
 
+  // bind
   for (var i = 0, len = all.length; i < len; ++i) {
     if ('' == all[i]) continue;
     mods = all[i].split(/ *\+ */);

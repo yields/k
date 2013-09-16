@@ -1,7 +1,14 @@
 
 var dispatcher = require('k');
+var os = require('os');
 
 describe('k', function(){
+
+  // superkey
+
+  var superkey = 'mac' == os
+    ? 'command'
+    : 'ctrl';
 
   // keycode
 
@@ -60,6 +67,12 @@ describe('k', function(){
       var k = dispatcher(el);
       assert(k.el === el);
       assert(dispatcher(el) !== k);
+    })
+  })
+
+  describe('k.super', function(){
+    it('should be "' + superkey + '" on "' + os + '"', function(){
+      assert(superkey == dispatcher(window).super);
     })
   })
 
@@ -225,6 +238,31 @@ describe('k', function(){
       assert(true == k.modifiers);
       ctrl();
       assert(null == k.modifiers);
+    })
+  })
+
+  describe('k("super + enter")', function(){
+    it('should be invoked on "' + superkey + ' + enter"', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('super + enter', function(){ ++invoked; });
+      var sup = press(el, superkey);
+      var enter = press(el, 'enter');
+      assert(1 == invoked);
+      sup();
+      enter();
+    })
+
+    it('should set "' + superkey + '" and .super to true when super is down', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('super + enter', function(){ ++invoked; });
+      var sup = press(el, superkey);
+      assert(k[superkey]);
+      assert(k.super);
+      sup();
     })
   })
 
