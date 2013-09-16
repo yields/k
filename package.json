@@ -1,0 +1,25 @@
+{
+  "name": "k-component",
+  "description": "keyboard event dispatcher",
+  "author": "Amir Abu Shareb <yields@icloud.com>",
+  "version": "0.3.0",
+  "main": "index.js",
+  "dependencies": {
+    "keycode-component": "*",
+    "event-component": "*",
+    "bind-component": "*",
+    "os-component": "*"
+  },
+  "browser": {
+    "keycode": "keycode-component",
+    "event": "event-component",
+    "bind": "bind-component",
+    "os": "os-component"
+  },
+  "component": {
+    "scripts": {
+      "k/index.js": "index.js",
+      "k/proto.js": "proto.js"
+    }
+  }
+}
