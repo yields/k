@@ -4,7 +4,6 @@
  */
 
 var event = require('event')
-  , merge = require('merge')
   , proto = require('./proto')
   , bind = require('bind');
 
@@ -28,7 +27,7 @@ module.exports = function(el){
   event.bind(el, 'keyup', k._clear, false);
   event.bind(el, 'focus', k._clear, false);
   k.listeners = {};
-  merge(k, proto);
+  for (var p in proto) k[p] = proto[p];
   k.el = el;
   return k;
 };
