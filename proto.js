@@ -119,7 +119,7 @@ exports.unbind = function(keys, fn){
       listeners[key] = [];
     } else {
       index = listeners[key].indexOf(fn);
-      listeners[key].splice(i, 1);
+      if (index > -1) listeners[key].splice(i, 1);
     }
   }
 
