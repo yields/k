@@ -107,7 +107,8 @@ exports.unbind = function(keys, fn){
     , key
     , len;
 
-  if (!keys) {
+  // unbind all
+  if (0 == arguments.length) {
     this.listeners = {};
     return this;
   }
@@ -115,12 +116,22 @@ exports.unbind = function(keys, fn){
   keys = keys.split(/ *, */);
   for (var i = 0, len = keys.length; i < len; ++i) {
     key = keycode(keys[i]);
-    if (null == fn) {
-      listeners[key] = [];
-    } else {
-      index = listeners[key].indexOf(fn);
-      listeners[key].splice(i, 1);
+
+    // no listeners
+    if (!listeners[key]) continue;
+
+    // unbind fn
+    if (2 == arguments.length) {
+      for (var j = 0; j < listeners[key].length; ++j) {
+        if (fn == listeners[key][j].fn) {
+          listeners[key].splice(j, 1);
+        }
+      }
+      continue;
     }
+
+    // unbind all keys
+    listeners[key] = [];
   }
 
   return this;
@@ -157,6 +168,7 @@ exports.bind = function(keys, fn){
     mods = all[i].split(/ *\+ */);
     key = keycode(mods.pop() || ',');
     if (!fns[key]) fns[key] = [];
+    fn.mods = mods;
     fns[key].push({ mods: mods, fn: fn });
   }
 
