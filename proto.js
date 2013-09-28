@@ -103,10 +103,7 @@ exports.destroy = function(){
 
 exports.unbind = function(keys, fn){
   var fns = this.listeners
-    , index
-    , key
-    , len
-    , mods;
+    , all;
 
   // unbind all
   if (0 == arguments.length) {
@@ -114,37 +111,26 @@ exports.unbind = function(keys, fn){
     return this;
   }
 
-  // superkey
-  keys = keys.replace('super', exports.super);
+  // parse
+  all = parseKeys(keys);
 
-  // support `,`
-  var all = (',' != keys) ? keys.split(/ *, */) : [','];
-
-  for (var i = 0, len = all.length; i < len; ++i) {
-    if ('' == all[i]) continue;
-
-    mods = all[i].split(/ *\+ */);
-    key = keycode(mods.pop() || ',');
-
-    if (!fns[key]) continue;
-
-    // unbind fn
-    if (2 == arguments.length) {
-      for (var j = 0; j < fns[key].length; ++j) {
-        var suspect = fns[key][j].fn;
-        if (fn == suspect) {
-          var modString = fn.mods.sort().toString();
-          var suspectModString = suspect.mods.sort().toString();
-          if (modString == suspectModString)
-            fns[key].splice(j, 1);
-        }
-      }
-      continue;
+  // unbind keys
+  if (1 == arguments.length) {
+    for (var i = 0; i < all.length; ++i) {
+      fns[all[i].key] = [];
     }
+    return this;
+  }
 
-
-    // unbind all keys
-    fns[key] = [];
+  // unbind `fn`
+  for (var i = 0; i < all.length; ++i) {
+    fns = fns[all[i].key];
+    if (!fns) continue;
+    for (var j = 0; j < fns.length; ++j) {
+      if (fn != fns[j].fn) continue;
+      if (!matches(fns[j], all[i])) continue;
+      fns.splice(j, 1);
+    }
   }
 
   return this;
@@ -162,26 +148,12 @@ exports.unbind = function(keys, fn){
  */
 
 exports.bind = function(keys, fn){
-  var fns = this.listeners
-    , mods = []
-    , key;
+  var all = parseKeys(keys)
+    , fns = this.listeners;
 
-  // superkey
-  keys = keys.replace('super', exports.super);
-
-  // support `,`
-  var all = ',' != keys
-    ? keys.split(/ *, */)
-    : [','];
-
-  // bind
-  for (var i = 0, len = all.length; i < len; ++i) {
-    if ('' == all[i]) continue;
-    mods = all[i].split(/ *\+ */);
-    key = keycode(mods.pop() || ',');
-    if (!fns[key]) fns[key] = [];
-    fn.mods = mods;
-    fns[key].push({ mods: mods, fn: fn });
+  for (var i = 0; i < all.length; ++i) {
+    (fns[all[i].key] = fns[all[i].key] || []).push(all[i]);
+    all[i].fn = fn;
   }
 
   return this;
@@ -215,3 +187,58 @@ exports.ignore = function(e){
     || 'select' == name
     || 'input' == name;
 };
+
+/**
+ * Parse the given `keys`.
+ *
+ * @param {String} keys
+ * @return {Array}
+ * @api private
+ */
+
+function parseKeys(keys){
+  keys = keys.replace('super', exports.super);
+
+  var all = ',' != keys
+    ? keys.split(/ *, */)
+    : [','];
+
+  var ret = [];
+  for (var i = 0; i < all.length; ++i) {
+    if ('' == all[i]) continue;
+    var mods = all[i].split(/ *\+ */);
+    var key = keycode(mods.pop() || ',');
+    ret.push({ mods: mods, key: key });
+  }
+
+  return ret;
+}
+
+/**
+ * Check if the given `a` matches `b`.
+ *
+ * @param {Object} a
+ * @param {Object} b
+ * @return {Boolean}
+ */
+
+function matches(a, b){
+  return 0 == b.mods.length || eql(a, b);
+}
+
+/**
+ * shallow eql util.
+ *
+ * TODO: move to yields/eql
+ *
+ * @param {Array} a
+ * @param {Array} b
+ * @return {Boolean}
+ * @api private
+ */
+
+function eql(a, b){
+  a = a.mods.sort().toString();
+  b = b.mods.sort().toString();
+  return a == b;
+}

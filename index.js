@@ -26,8 +26,8 @@ module.exports = function(el){
   event.bind(el, 'keydown', k._handle, false);
   event.bind(el, 'keyup', k._clear, false);
   event.bind(el, 'focus', k._clear, false);
-  k.listeners = {};
   for (var p in proto) k[p] = proto[p];
+  k.listeners = {};
   k.el = el;
   return k;
 };
