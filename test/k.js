@@ -274,6 +274,11 @@ describe('k', function(){
       assert(2 == k.listeners[13].length);
       k.unbind('enter', console.dir);
       assert(1 == k.listeners[13].length);
+
+      k('shift + 1', console.warn);
+      assert(1 == k.listeners[49].length);
+      k.unbind('shift + 1', console.warn);
+      assert(0 == k.listeners[49].length);
     })
 
     it('should unbind all listeners if `fn` is omitted', function(){

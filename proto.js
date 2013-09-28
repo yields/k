@@ -102,10 +102,11 @@ exports.destroy = function(){
  */
 
 exports.unbind = function(keys, fn){
-  var listeners = this.listeners
+  var fns = this.listeners
     , index
     , key
-    , len;
+    , len
+    , mods;
 
   // unbind all
   if (0 == arguments.length) {
@@ -113,30 +114,41 @@ exports.unbind = function(keys, fn){
     return this;
   }
 
-  keys = keys.split(/ *, */);
-  for (var i = 0, len = keys.length; i < len; ++i) {
-    key = keycode(keys[i]);
+  // superkey
+  keys = keys.replace('super', exports.super);
 
-    // no listeners
-    if (!listeners[key]) continue;
+  // support `,`
+  var all = (',' != keys) ? keys.split(/ *, */) : [','];
+
+  for (var i = 0, len = all.length; i < len; ++i) {
+    if ('' == all[i]) continue;
+
+    mods = all[i].split(/ *\+ */);
+    key = keycode(mods.pop() || ',');
+
+    if (!fns[key]) continue;
 
     // unbind fn
     if (2 == arguments.length) {
-      for (var j = 0; j < listeners[key].length; ++j) {
-        if (fn == listeners[key][j].fn) {
-          listeners[key].splice(j, 1);
+      for (var j = 0; j < fns[key].length; ++j) {
+        var suspect = fns[key][j].fn;
+        if (fn == suspect) {
+          var modString = fn.mods.sort().toString();
+          var suspectModString = suspect.mods.sort().toString();
+          if (modString == suspectModString)
+            fns[key].splice(j, 1);
         }
       }
       continue;
     }
 
+
     // unbind all keys
-    listeners[key] = [];
+    fns[key] = [];
   }
 
   return this;
 };
-
 /**
  * bind the given `keys` to `fn`.
  *
