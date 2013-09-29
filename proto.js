@@ -65,6 +65,9 @@ exports.handle = function(e, fn){
     mods = handle.mods;
     mlen = mods.length;
 
+    // Do not match if modifiers are pressed and handler has none defined:
+    if (this.modifiers === true && mlen == 0) break;
+
     for (var j = 0; j < mlen; ++j) {
       if (!this[mods[j]]) {
         invoke = null;
