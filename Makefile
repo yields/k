@@ -1,6 +1,6 @@
 
 build: components index.js proto.js
-	@component build
+	@component build --dev
 
 components: component.json
 	@component install --dev
@@ -8,7 +8,7 @@ components: component.json
 clean:
 	@rm -fr build components template.js
 
-test:
+test: build
 	@open test/index.html
 
 .PHONY: clean test

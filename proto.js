@@ -114,22 +114,19 @@ exports.unbind = function(keys, fn){
   // parse
   all = parseKeys(keys);
 
-  // unbind keys
-  if (1 == arguments.length) {
-    for (var i = 0; i < all.length; ++i) {
-      fns[all[i].key] = [];
-    }
-    return this;
-  }
-
   // unbind `fn`
   for (var i = 0; i < all.length; ++i) {
     fns = fns[all[i].key];
     if (!fns) continue;
     for (var j = 0; j < fns.length; ++j) {
-      if (fn != fns[j].fn) continue;
+      if (fn && fn != fns[j].fn) continue;
       if (!matches(fns[j], all[i])) continue;
-      fns.splice(j, 1);
+
+      if (!fn && !all[i].mods.length) {
+        this.listeners[all[i].key] = [];
+      } else {
+        fns.splice(j, 1);
+      }
     }
   }
 

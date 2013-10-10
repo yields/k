@@ -12,5 +12,10 @@
     "component/event": "*",
     "component/bind": "*",
     "component/os": "*"
+  },
+  "development": {
+    "component/assert": "*",
+    "visionmedia/mocha": "*",
+    "visionmedia/mocha-matrix": "*"
   }
 }
