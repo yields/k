@@ -1,8 +1,10 @@
 
-var dispatcher = require('k');
-var os = require('os');
-
 describe('k', function(){
+
+  var keycode = require('keycode')
+    , assert = require('assert')
+    , dispatcher = require('k')
+    , os = require('os');
 
   // superkey
 
@@ -10,58 +12,7 @@ describe('k', function(){
     ? 'command'
     : 'ctrl';
 
-  // keycode
-
-  function keycode(name){
-    switch (name) {
-      case ',': return 188;
-      case 'command': return 91;
-      case 'shift': return 16;
-      case 'ctrl': return 17;
-      case 'alt': return 18;
-      case 'enter': return 13;
-      default: return name[0].toUpperCase().charCodeAt(0);
-    }
-  }
-
-  // keyname
-
-  function keyname(code){
-    return String.fromCharCode(code).toLowerCase();
-  }
-
-  // press `el` with `code`
-
-  function press(el, code){
-    if (!el || !code) throw new Error('(el, code) must be given to press()');
-    code = keycode(code);
-    var e = document.createEvent('Event');
-    e.initEvent('keydown', true, true);
-    e.keyCode = e.which = code;
-    el.dispatchEvent(e);
-    return function(){
-      var e = document.createEvent('Event');
-      e.initEvent('keyup', true, true);
-      e.keyCode = code;
-      el.dispatchEvent(e);
-    };
-  }
-
-  // create element with `type`
-
-  function elem(type){
-    return document.createElement(type || 'div');
-  }
-
-  // assert `expr` or throw `ms`
-
-  function assert(expr, ms){
-    if (expr) return;
-    throw new Error(ms || 'oh noes!');
-  }
-
-
-  describe('k = k(el)', function(){
+  describe('(element)', function(){
     it('should create a new dispatcher with `el`', function(){
       var el = elem();
       var k = dispatcher(el);
@@ -70,13 +21,7 @@ describe('k', function(){
     })
   })
 
-  describe('k.super', function(){
-    it('should be "' + superkey + '" on "' + os + '"', function(){
-      assert(superkey == dispatcher(window).super);
-    })
-  })
-
-  describe('k(keys, fn)', function(){
+  describe('(keys, fn)', function(){
     it('should bind the given `fn` on `keys`', function(){
       var k = dispatcher(elem());
       k('shift + enter', function(){});
@@ -108,7 +53,32 @@ describe('k', function(){
     })
   })
 
-  describe('k(e)', function(){
+  describe('("super + enter", fn)', function(){
+    it('should be invoked on "' + superkey + ' + enter"', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('super + enter', function(){ ++invoked; });
+      var sup = press(el, superkey);
+      var enter = press(el, 'enter');
+      assert(1 == invoked);
+      sup();
+      enter();
+    })
+
+    it('should set "' + superkey + '" and .super to true when super is down', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('super + enter', function(){ ++invoked; });
+      var sup = press(el, superkey);
+      assert(k[superkey]);
+      assert(k.super);
+      sup();
+    })
+  })
+
+ describe('(event)', function(){
     it('should invoke all listeners that match the event', function(){
       var el = elem();
       var k = dispatcher(el);
@@ -213,7 +183,61 @@ describe('k', function(){
     })
   })
 
-  describe('k.modifiers', function(){
+  describe('#super', function(){
+    it('should be "' + superkey + '" on "' + os + '"', function(){
+      assert(superkey == dispatcher(window).super);
+    })
+  })
+
+  describe('#unbind', function(){
+    it('("shift + enter", fn)', function(){
+      var k = dispatcher(elem());
+      k('shift + enter', console.log);
+      k('shift + enter', console.dir);
+      assert(2 == k.listeners[13].length);
+      k.unbind('enter', console.dir);
+      assert(1 == k.listeners[13].length);
+
+      k('shift + 1', console.warn);
+      assert(1 == k.listeners[49].length);
+      k.unbind('shift + 1', console.warn);
+      assert(0 == k.listeners[49].length);
+    })
+
+    it('("command + enter")', function(){
+      var k = dispatcher(elem());
+      k('command + enter', assert);
+      k('shift + enter', assert);
+      assert(2 == k.listeners[13].length);
+      k.unbind('command + enter');
+      assert(1 == k.listeners[13].length);
+    })
+
+    it('("enter")', function(){
+      var k = dispatcher(elem());
+      k('shift + enter', assert);
+      k('shift + enter', assert);
+      assert(2 == k.listeners[13].length);
+      k.unbind('enter');
+      assert(0 == k.listeners[13].length);
+    })
+
+    it('()', function(){
+      var k = dispatcher(elem());
+      k('enter', assert);
+      k('a', assert);
+      k('b', assert);
+      assert(k.listeners[13]);
+      assert(k.listeners[keycode('a')]);
+      assert(k.listeners[keycode('b')]);
+      k.unbind();
+      assert(!k.listeners[keycode('b')]);
+      assert(!k.listeners[keycode('a')]);
+      assert(!k.listeners[13]);
+    })
+  })
+
+  describe('#modifiers', function(){
     it('should be `true` if a modifier(s) is down', function(){
       var el = elem();
       var k = dispatcher(el);
@@ -241,67 +265,26 @@ describe('k', function(){
     })
   })
 
-  describe('k("super + enter")', function(){
-    it('should be invoked on "' + superkey + ' + enter"', function(){
-      var el = elem();
-      var k = dispatcher(el);
-      var invoked = 0;
-      k('super + enter', function(){ ++invoked; });
-      var sup = press(el, superkey);
-      var enter = press(el, 'enter');
-      assert(1 == invoked);
-      sup();
-      enter();
-    })
+  // press `el` with `code`
 
-    it('should set "' + superkey + '" and .super to true when super is down', function(){
-      var el = elem();
-      var k = dispatcher(el);
-      var invoked = 0;
-      k('super + enter', function(){ ++invoked; });
-      var sup = press(el, superkey);
-      assert(k[superkey]);
-      assert(k.super);
-      sup();
-    })
-  })
+  function press(el, code){
+    if (!el || !code) throw new Error('(el, code) must be given to press()');
+    code = keycode(code);
+    var e = document.createEvent('Event');
+    e.initEvent('keydown', true, true);
+    e.keyCode = e.which = code;
+    el.dispatchEvent(e);
+    return function(){
+      var e = document.createEvent('Event');
+      e.initEvent('keyup', true, true);
+      e.keyCode = code;
+      el.dispatchEvent(e);
+    };
+  }
 
-  describe('k.unbind([keys, [fn]])', function(){
-    it('should unbind the given `fn` from `keys`', function(){
-      var k = dispatcher(elem());
-      k('shift + enter', console.log);
-      k('shift + enter', console.dir);
-      assert(2 == k.listeners[13].length);
-      k.unbind('enter', console.dir);
-      assert(1 == k.listeners[13].length);
+  // create element with `type`
 
-      k('shift + 1', console.warn);
-      assert(1 == k.listeners[49].length);
-      k.unbind('shift + 1', console.warn);
-      assert(0 == k.listeners[49].length);
-    })
-
-    it('should unbind all listeners if `fn` is omitted', function(){
-      var k = dispatcher(elem());
-      k('shift + enter', assert);
-      k('shift + enter', assert);
-      assert(2 == k.listeners[13].length);
-      k.unbind('enter');
-      assert(0 == k.listeners[13].length);
-    })
-
-    it('should reset listeners if no arguments are given', function(){
-      var k = dispatcher(elem());
-      k('enter', assert);
-      k('a', assert);
-      k('b', assert);
-      assert(k.listeners[13]);
-      assert(k.listeners[keycode('a')]);
-      assert(k.listeners[keycode('b')]);
-      k.unbind();
-      assert(!k.listeners[keycode('b')]);
-      assert(!k.listeners[keycode('a')]);
-      assert(!k.listeners[13]);
-    })
-  })
+  function elem(type){
+    return document.createElement(type || 'div');
+  }
 })
