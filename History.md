@@ -1,4 +1,9 @@
 
+0.5.2 / 2013-10-27
+==================
+
+ * fix bug when unbinding multiple listeners [karlbohlmark]
+
 0.5.1 / 2013-10-10
 ==================
 
