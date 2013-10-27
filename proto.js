@@ -116,7 +116,7 @@ exports.unbind = function(keys, fn){
 
   // unbind `fn`
   for (var i = 0; i < all.length; ++i) {
-    fns = fns[all[i].key];
+    fns = this.listeners[all[i].key];
     if (!fns) continue;
     for (var j = 0; j < fns.length; ++j) {
       if (fn && fn != fns[j].fn) continue;
