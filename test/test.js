@@ -222,6 +222,17 @@ describe('k', function(){
       assert(0 == k.listeners[13].length);
     })
 
+    it('("left, right")', function(){
+      var k = dispatcher(elem());
+      k('left', assert);
+      k('right', assert);
+      assert(1 == k.listeners[keycode('left')].length);
+      assert(1 == k.listeners[keycode('right')].length);
+      k.unbind('left, right');
+      assert(0 == k.listeners[keycode('left')].length);
+      assert(0 == k.listeners[keycode('right')].length);
+    })
+
     it('()', function(){
       var k = dispatcher(elem());
       k('enter', assert);
