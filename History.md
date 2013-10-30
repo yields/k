@@ -1,4 +1,11 @@
 
+0.6.0 / 2013-10-30
+==================
+
+ * add gmail like sequences, closes #17
+ * add keyup support, closes #11
+ * use array for listeners
+
 0.5.2 / 2013-10-27
 ==================
 
