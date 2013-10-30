@@ -27,15 +27,15 @@ describe('k', function(){
       k('shift + enter', function(){});
       k('a, b, c', function(){});
       assert('shift' == k.listeners[0].mods[0]);
-      assert(keycode('a') == k.listeners[1].key);
-      assert(keycode('b') == k.listeners[2].key);
-      assert(keycode('c') == k.listeners[3].key);
+      assert(keycode('a') == k.listeners[1].code);
+      assert(keycode('b') == k.listeners[2].code);
+      assert(keycode('c') == k.listeners[3].code);
     })
 
     it('should support bind `,` key currectly', function(){
       var k = dispatcher(elem());
       k(',', function(){});
-      assert(keycode(',') == k.listeners[0].key);
+      assert(keycode(',') == k.listeners[0].code);
     })
 
     it('should support keys like `command + ,, ctrl + ,`', function(){
@@ -50,6 +50,22 @@ describe('k', function(){
       var k = dispatcher(elem());
       k('command + shift + ,', function(){});
       assert(2 == k.listeners[0].mods.length);
+    })
+
+    it('should support sequences `a b c d`', function(){
+      var k = dispatcher(elem());
+      k('a b c d', function(){});
+      assert('a b c d' == k.listeners[0].key);
+      assert('function' == typeof k.listeners[0].seq);
+      assert('function' == typeof k.listeners[0].fn);
+    })
+
+    it('should support mods with sequences `command + shift + a b c`', function(){
+      var k = dispatcher(elem());
+      k('command + shift + a b c', function(){});
+      assert('a b c' == k.listeners[0].key);
+      assert('command' == k.listeners[0].mods[0]);
+      assert('shift' == k.listeners[0].mods[1]);
     })
   })
 
@@ -207,6 +223,49 @@ describe('k', function(){
     })
   })
 
+  describe('sequences', function(){
+    it('`a b c`', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('a b c', function(){ ++invoked; });
+      press(el, 'a')();
+      assert(0 == invoked);
+      press(el, 'b')();
+      assert(0 == invoked);
+      press(el, 'c')();
+      assert(1 == invoked);
+    })
+
+    it('`command + a b c`', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('command + a b c', function(){ ++invoked; });
+      var cmd = press(el, 'command');
+      assert(0 == invoked);
+      press(el, 'a')();
+      press(el, 'b')();
+      assert(0 == invoked);
+      press(el, 'c')();
+      assert(1 == invoked);
+      cmd();
+    })
+
+    it('`* a`', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('* a', function(){ ++invoked; });
+      press(el, 'b')();
+      press(el, 'a')();
+      assert(1 == invoked);
+      press(el, 'd')();
+      press(el, 'c')();
+      assert(1 == invoked);
+    })
+  })
+
   describe('#super', function(){
     it('should be "' + superkey + '" on "' + os + '"', function(){
       assert(superkey == dispatcher(window).super);
@@ -214,7 +273,7 @@ describe('k', function(){
   })
 
   describe('#unbind', function(){
-    it.skip('("shift + enter", fn)', function(){
+    it('("shift + enter", fn)', function(){
       var k = dispatcher(elem());
       k('shift + enter', console.log);
       k('shift + enter', console.dir);
@@ -228,7 +287,7 @@ describe('k', function(){
       assert(1 == k.listeners.length);
     })
 
-    it.skip('("command + enter")', function(){
+    it('("command + enter")', function(){
       var k = dispatcher(elem());
       k('command + enter', assert);
       k('shift + enter', assert);
@@ -246,7 +305,7 @@ describe('k', function(){
       assert(0 == k.listeners.length);
     })
 
-    it.skip('("left, right")', function(){
+    it('("left, right")', function(){
       var k = dispatcher(elem());
       k('left', assert);
       k('right', assert);
@@ -255,7 +314,15 @@ describe('k', function(){
       assert(0 == k.listeners.length);
     })
 
-    it.skip('()', function(){
+    it('("a b c")', function(){
+      var k = dispatcher(elem());
+      k('a b c', assert);
+      assert(1 == k.listeners.length);
+      k.unbind('a b c');
+      assert(0 == k.listeners.length);
+    })
+
+    it('()', function(){
       var k = dispatcher(elem());
       k('enter', assert);
       k('a', assert);

@@ -9,6 +9,7 @@
   "main": "lib/index.js",
   "twitter": "@_yields",
   "dependencies": {
+    "yields/k-sequence": "*",
     "yields/keycode": "*",
     "component/event": "*",
     "component/bind": "*",
