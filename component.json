@@ -5,7 +5,8 @@
   "version": "0.5.2",
   "keywords": ["keyboard"],
   "license": "MIT",
-  "scripts": ["index.js", "proto.js"],
+  "scripts": ["lib/index.js", "lib/proto.js"],
+  "main": "lib/index.js",
   "twitter": "@_yields",
   "dependencies": {
     "yields/keycode": "*",
