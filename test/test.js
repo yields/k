@@ -53,6 +53,26 @@ describe('k', function(){
     })
   })
 
+  describe('up(keys, fn)', function(){
+    it('should bind a "keyup" event', function(){
+      var k = dispatcher(elem());
+      k.up('k', function(){});
+      assert(1 == k.listeners.length);
+      assert('keyup' == k.listeners[0].event);
+    })
+
+    it('should invoke only on "keyup"', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k.up('enter', function(){ ++invoked; });
+      var enter = press(el, 'enter');
+      assert(0 == invoked);
+      enter();
+      assert(1 == invoked);
+    })
+  })
+
   describe('("super + enter", fn)', function(){
     it('should be invoked on "' + superkey + ' + enter"', function(){
       var el = elem();
@@ -87,11 +107,15 @@ describe('k', function(){
       k('a', function(){ ++invoked; });
       k('b', function(){ ++invoked; });
       k('c', function(){ ++invoked; });
+      k.up('d', function(){ ++invoked; });
       press(el, 'enter')();
       press(el, 'a')();
       press(el, 'b')();
       press(el, 'c')();
+      var d = press(el, 'd');
       assert(4 == invoked);
+      d();
+      assert(5 == invoked);
     })
 
     it('should invoke keys like `ctrl + ,, command + ,` and `,`', function(){
@@ -282,7 +306,7 @@ describe('k', function(){
     return function(){
       var e = document.createEvent('Event');
       e.initEvent('keyup', true, true);
-      e.keyCode = code;
+      e.keyCode = e.which = code;
       el.dispatchEvent(e);
     };
   }
