@@ -68,7 +68,7 @@ k.unbind('command + enter', fn); // => unbind `fn` just from `command + enter`
   Removes all listeners on `k.el`.
   Removes all `k.listeners`.
 
-### #ignore(e)
+### #ignore
 
   this function is called just before any handlers are called,
   if it returns `true` no handlers will be called for this event.
