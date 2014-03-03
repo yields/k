@@ -102,6 +102,18 @@ describe('k', function(){
       enter();
     })
 
+    it('should work with firefox keycode for command "224"', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('super + a', function(){ ++invoked; });
+      var sup = press(el, 224);
+      var a = press(el, 'a');
+      assert(1 == invoked);
+      sup();
+      a();
+    })
+
     it('should set "' + superkey + '" and .super to true when super is down', function(){
       var el = elem();
       var k = dispatcher(el);
@@ -365,7 +377,7 @@ describe('k', function(){
 
   function press(el, code){
     if (!el || !code) throw new Error('(el, code) must be given to press()');
-    code = keycode(code);
+    if ('string' == typeof code) code = keycode(code);
     var e = document.createEvent('Event');
     e.initEvent('keydown', true, true);
     e.keyCode = e.which = code;
