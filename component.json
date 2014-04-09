@@ -17,7 +17,6 @@
   },
   "development": {
     "component/assert": "*",
-    "visionmedia/mocha": "*",
-    "visionmedia/mocha-matrix": "*"
+    "visionmedia/mocha": "*"
   }
 }
