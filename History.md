@@ -1,4 +1,9 @@
 
+0.6.2 / 2014-05-19
+==================
+
+ * fix for older browsers and reserved keywords (<IE9)
+
 0.6.1 / 2014-03-03
 ==================
 
