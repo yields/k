@@ -1,6 +1,7 @@
 {
   "name": "k",
   "repo": "yields/k",
+  "remotes": ["https://raw.githubusercontent.com/"],
   "description": "keyboard event dispatcher.",
   "version": "0.6.2",
   "keywords": ["keyboard"],
