@@ -1,25 +1,32 @@
 {
-  "name": "k-component",
+  "name": "yields-k",
   "description": "keyboard event dispatcher",
   "author": "Amir Abu Shareb <yields@icloud.com>",
   "version": "0.6.2",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "keywords": [
+    "browser",
+    "keyboard"
+  ],
   "dependencies": {
-    "keycode-component": "*",
-    "event-component": "*",
-    "bind-component": "*",
-    "os-component": "*"
+    "component-event": "*",
+    "component-bind": "*",
+    "component-os": "*",
+    "yields-k-sequence": "*",
+    "yields-keycode": "*"
   },
   "browser": {
-    "keycode": "keycode-component",
-    "event": "event-component",
-    "bind": "bind-component",
-    "os": "os-component"
+    "event": "component-event",
+    "bind": "component-bind",
+    "os": "component-os",
+    "k-sequence": "yields-k-sequence",
+    "keycode": "yields-keycode"
   },
   "component": {
     "scripts": {
-      "k/index.js": "index.js",
-      "k/proto.js": "proto.js"
+      "k/index.js": "lib/index.js",
+      "k/proto.js": "lib/proto.js"
     }
-  }
+  },
+  "license": "MIT"
 }
