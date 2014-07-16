@@ -1,12 +1,20 @@
 {
   "name": "k",
   "repo": "yields/k",
-  "remotes": ["https://raw.githubusercontent.com/"],
-  "description": "keyboard event dispatcher.",
+  "remotes": [
+    "https://raw.githubusercontent.com/"
+  ],
+  "description": "keyboard event dispatcher",
   "version": "0.6.2",
-  "keywords": ["keyboard"],
+  "keywords": [
+    "browser",
+    "keyboard"
+  ],
   "license": "MIT",
-  "scripts": ["lib/index.js", "lib/proto.js"],
+  "scripts": [
+    "lib/index.js",
+    "lib/proto.js"
+  ],
   "main": "lib/index.js",
   "twitter": "@_yields",
   "dependencies": {
