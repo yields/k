@@ -28,5 +28,9 @@
       "k/proto.js": "lib/proto.js"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yields/k.git"
+  },
   "license": "MIT"
 }
