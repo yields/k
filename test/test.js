@@ -264,6 +264,19 @@ describe('k', function(){
       cmd();
     })
 
+    it('`command + *`', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('command + *', function(){ ++invoked });
+      var cmd = press(el, 'command');
+      assert(0 == invoked);
+      press(el, 'a')();
+      press(el, 'b')();
+      assert(2 == invoked);
+      cmd();
+    })
+
     it('`* a`', function(){
       var el = elem();
       var k = dispatcher(el);
