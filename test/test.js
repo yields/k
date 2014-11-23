@@ -158,11 +158,11 @@ describe('k', function(){
       var unpress = press(el, 'ctrl');
       press(el, ',')();
       unpress();
-      assert(3 == invoked);
+      assert(2 == invoked);
       unpress = press(el, 'command');
       press(el, ',')();
       unpress();
-      assert(5 == invoked);
+      assert(3 == invoked);
     })
 
     it('should work with multiple modifers `command + shift + ,`', function(){
@@ -222,6 +222,22 @@ describe('k', function(){
         assert(null == k[mods[i]]);
       }
     })
+
+    it('should not invoke `super + a` if `super + shift + a` is down', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      function incr(){ ++invoked; }
+      k('super + a', incr);
+      var shift = press(el, 'shift');
+      var cmd = press(el, 'command');
+      assert(0 == invoked);
+      press(el, 'a')();
+      assert(0 == invoked);
+      shift();
+      press(el, 'a')();
+      assert(1 == invoked);
+    });
 
     it('should ignore input, select and textarea elements by default', function(){
       var el = elem('input');
