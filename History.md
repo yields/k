@@ -1,4 +1,13 @@
 
+0.7.0 / 2014-12-01
+==================
+
+  * modifiers: consider inactive modifiers
+  * sequences: support cmd + *
+  * package: add "repository" field
+  * package: rename to "yields-k" for npm
+  * component: add "browser" keyword
+
 0.6.2 / 2014-05-19
 ==================
 

@@ -2,7 +2,7 @@
   "name": "yields-k",
   "description": "keyboard event dispatcher",
   "author": "Amir Abu Shareb <yields@icloud.com>",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "main": "lib/index.js",
   "keywords": [
     "browser",
