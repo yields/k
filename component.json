@@ -5,7 +5,7 @@
     "https://raw.githubusercontent.com/"
   ],
   "description": "keyboard event dispatcher",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "keywords": [
     "browser",
     "keyboard"
