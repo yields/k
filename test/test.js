@@ -400,7 +400,21 @@ describe('k', function(){
       ctrl();
       assert(null == k.modifiers);
     })
+
+    it('should be `falsey` after regaining focus', function() {
+      var el = elem();
+      var k = dispatcher(el);
+      assert(null == k.modifiers);
+      assert(null == k.ctrl);
+      press(el, 'ctrl');
+      assert(true == k.modifiers);
+      assert(true == k.ctrl);
+      el.dispatchEvent(new FocusEvent('focus'));
+      assert(null == k.modifiers);
+      assert(null == k.ctrl);
+    })
   })
+
 
   // press `el` with `code`
 
