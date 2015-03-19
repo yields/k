@@ -265,6 +265,22 @@ describe('k', function(){
       assert(1 == invoked);
     })
 
+    it('`a b c` and `c`', function(){
+      var el = elem();
+      var k = dispatcher(el);
+      var invoked = 0;
+      k('a b c', function(){ ++invoked; });
+      k('c', function(){ ++invoked; });
+      press(el, 'a')();
+      assert(0 == invoked);
+      press(el, 'b')();
+      assert(0 == invoked);
+      press(el, 'c')();
+      assert(1 == invoked);
+      press(el, 'c')();
+      assert(2 == invoked);
+    })
+
     it('`command + a b c`', function(){
       var el = elem();
       var k = dispatcher(el);
