@@ -276,9 +276,9 @@ describe('k', function(){
       press(el, 'b')();
       assert(0 == invoked);
       press(el, 'c')();
-      assert(1 == invoked);
-      press(el, 'c')();
       assert(2 == invoked);
+      press(el, 'c')();
+      assert(3 == invoked);
     })
 
     it('`command + a b c`', function(){
